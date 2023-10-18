@@ -1,0 +1,24 @@
+.product{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.formulario{
+    padding: .5em;
+    text-align: center;
+    
+}
+p{
+    margin-bottom: 1em;
+    padding: .5em;
+}
+
+input{
+    width: 100%;
+    display: flex;
+    padding: .5em;
+}
+
+button{
+  text-align: center;
+}

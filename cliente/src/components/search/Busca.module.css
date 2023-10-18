@@ -1,0 +1,23 @@
+.pesquisa{
+    margin-top: 2em;
+    text-align: center;
+   
+}
+.formulario{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.icone{
+    font-size: 2em;
+    
+}
+
+.pesquisa input{
+    padding: 1em;
+    width: 30%;
+}
+
+button{
+    margin-left: 3em;
+}

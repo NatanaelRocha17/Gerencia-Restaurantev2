@@ -1,0 +1,56 @@
+.paiItem{
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.item{
+
+    border: solid black 2px;
+    border-radius: 20px;
+    padding: .5em;
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    color: #9A3333;
+    
+}
+
+.item:hover{
+    background-color: #9A3333;
+    color: #fff;
+    transition: .5s;
+}
+
+.item div{
+    width: 20%;
+}
+
+.menu{
+    width: 33%;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+
+.icone{
+    padding: .4em;
+    font-size: 1.2em;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: .5s;
+    border-radius: 5px;
+    color: #000;
+}
+
+.icone:hover{
+    color: #fff;
+    background-color: #9A3333;
+
+}
+

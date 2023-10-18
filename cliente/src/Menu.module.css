@@ -1,0 +1,38 @@
+li{
+    list-style: none;
+    margin: 0 8rem;
+    padding: 1rem;
+}
+
+a{
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    
+}
+
+ul{
+    justify-content: space-between;
+    display: flex;
+}
+img{
+    width: 100px;
+}
+header{
+   justify-content: space-between;
+   align-items: center;
+    width: 100%;
+    display: flex;
+    background-color: #9A3432;
+}
+
+.links{
+    width: 80%;
+   
+}
+
+.active-button {
+
+    color: red;
+  }
+  
