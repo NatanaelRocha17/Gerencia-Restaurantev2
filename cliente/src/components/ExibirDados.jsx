@@ -1,23 +1,35 @@
-import React from "react";
-
-import styles from "./ExibirDados.module.css"; // Importe o arquivo CSS para estilização
+import React, { useState } from "react";
 import FormDialog from "./dialog";
+import { Link } from "react-router-dom";
+
+import styles from "./ExibirDados.module.css";
 
 function ExibirDados(props) {
+  // Function to format the date
+  const formatData = (date) => {
+    if (date) {
+      return new Date(date).toISOString().split("T")[0];
+    }
+    return "";
+  };
 
-const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false);
 
-const handleClickCard = () =>{
-  setOpen(true);
- }  
- console.log(props.dados.idproduto)
- return (
+  const handleClickCard = () => {
+    setOpen(true); // Abra o modal ao clicar no card
+  };
+
+  return (
     <>
-    <FormDialog open={open} setOpen={setOpen} nome={props.dados.nome} unidade={props.dados.unidade} id={props.dados.idproduto} medida={props.dados.medida} marca={props.dados.marca} fornecedor={props.dados.fornecedor} valor = {props.dados.valor}/>
-    <div className={styles.paiItem} onClick={() => handleClickCard()}>
-        <div className={styles.item}>
-          <div>
-            <h4>{props.dados.nome}</h4>
+      <FormDialog
+        open={open}
+        setOpen={setOpen}
+        nome={props.dados.nome} unidade={props.dados.unidade} id={props.dados.idproduto} medida={props.dados.medida} marca={props.dados.marca} fornecedor={props.dados.fornecedor} valor = {props.dados.valor}
+      />
+      <div className={styles.paiItem} >
+        <div className={styles.item} onClick={() => handleClickCard()}>
+        <div>
+            <h5>{props.dados.nome}</h5>
           </div>
           <div>
             <h5>
@@ -31,8 +43,7 @@ const handleClickCard = () =>{
             <h5>{props.dados.fornecedor}</h5>
           </div>
         </div>
-      
-    </div>
+      </div>
     </>
   );
 }

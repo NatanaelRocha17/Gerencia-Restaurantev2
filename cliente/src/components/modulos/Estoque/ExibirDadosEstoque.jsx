@@ -27,7 +27,7 @@ const handleClickCard = () =>{
       <div className={styles.paiItem} onClick={() => handleClickCard()}>
         <div className={styles.item}>
         <div>
-          <h4>{props.dados.nome}</h4>
+          <h5>{props.dados.nome}</h5>
         </div>
         <div>
           <h5>{props.dados.quantidade}</h5>

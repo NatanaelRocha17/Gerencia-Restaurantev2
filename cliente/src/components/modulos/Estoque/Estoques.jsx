@@ -41,7 +41,7 @@ function Estoques() {
         <div className={styles.paiItem}>
           <div className={styles.item}>
             <div>
-              <h4>Nome do produto</h4>
+              <h5>Nome do produto</h5>
             </div>
             <div>
               <h5>Quantidade</h5>

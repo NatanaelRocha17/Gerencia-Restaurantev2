@@ -1,43 +1,18 @@
-
-.select {
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 16px;
-  font-family: sans-serif;
-  color: #333;
-}
-
-.select option {
-  padding: 5px 10px;
-  font-size: 14px;
-}
-
-.select option:hover {
-  background-color: #eee;
-}
-
-.select option:selected {
-  background-color: #ccc;
-  color: #333;
+.backgroud{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
 }
 
 
-Button{
-    font-size: 1em;
-    padding: .5em;
-    cursor: pointer;
-    background-color: transparent;
-    border: solid 2px #000;
-    border-radius: 10px;
-    transition: .5s;
-  }
-  
-  
-Button:hover{
-    background-color: #9A3333;
-    color: #fff;
-  }
-  
-  
+.modal{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  color: white;
+}

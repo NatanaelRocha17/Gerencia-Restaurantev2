@@ -20,11 +20,11 @@ a{
 
 button{
   font-size: 1em;
-  padding: .5em;
+  padding: .3em;
   cursor: pointer;
   background-color: transparent;
   border: solid 2px #000;
-  border-radius: 10px;
+  border-radius: 10px !important;
   transition: .5s;
 }
 

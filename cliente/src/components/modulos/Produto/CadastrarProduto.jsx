@@ -88,14 +88,16 @@ function CadastrarProduto() {
            <div>
 
            <label htmlFor="medida">Selecione a medida:</label>
+           
             <select
               id="medida"
               name="medida"
+              className={styles.select}
              
             >
               <option value="kg">Quilogramas (kg)</option>
               <option value="g">Gramas (g)</option>
-              <option value="litros">Litros (L)</option>
+              <option value="L">Litros (L)</option>
               <option value="ml">Mililitros (ml)</option>
       
             </select>

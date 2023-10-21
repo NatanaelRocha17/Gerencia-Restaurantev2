@@ -27,6 +27,12 @@ const Produtos = () => {
     getProdutos();
   }, [setProdutos]);
 
+  
+  if (produtos.length === 0) {
+    return <h1>Nenhum produto encontrado</h1>;
+  }
+
+
   return (
     <>
       <Menu />
@@ -38,9 +44,23 @@ const Produtos = () => {
       />
 
       
-      {produtos.length === 0 ? (
-        <h1>Nenhum produto cadastrado</h1>
-      ) : (
+<div className={styles.paiItem}>
+          <div className={styles.item}>
+            <div>
+              <h5>Nome do produto</h5>
+            </div>
+            <div>
+              <h5>Medida</h5>
+            </div>
+            <div>
+              <h5>Marca</h5>
+            </div>
+            <div>
+              <h5>Fornecedor</h5>
+            </div>
+          </div>
+        </div>
+     {
         
         produtos
           .filter((produto) =>
@@ -54,7 +74,7 @@ const Produtos = () => {
               setListDados={setProdutos}
             />
           ))
-      )}
+      }
     </>
   );
 };
