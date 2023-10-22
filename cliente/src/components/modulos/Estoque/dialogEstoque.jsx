@@ -4,7 +4,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Dropdown } from "react-bootstrap";
 import axios from "axios";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import styles from "./dialogEstoque.module.css";
+import { toast } from "react-toastify";
 
 // Function to format the date
 const formatData = (date) => {
@@ -15,15 +17,19 @@ const formatData = (date) => {
 };
 
 export default function FormDialogEstoque(props) {
+  console.log("editValues")
+
   const [produtos, setProdutos] = useState([]);
   const [editValues, setEditValues] = useState({
     idestoque: props.idestoque,
+    nome: props.nome,
     idproduto: props.idproduto,
     lote: props.lote,
     quantidade: props.quantidade,
     dataValidade: props.dataValidade,
   });
-
+  console.log("editValues")
+  console.log(editValues);
   useEffect(() => {
     axios.get("http://localhost:3002/getProdutos").then((response) => {
       setProdutos(response.data);
@@ -31,34 +37,103 @@ export default function FormDialogEstoque(props) {
   }, []);
 
   const handleEditProduto = () => {
-    axios.put("http://localhost:3002/editarProdutoEstoque", {
-      idproduto: editValues.idproduto,
-      idestoque: editValues.idestoque,
-      lote: editValues.lote,
-      quantidade: editValues.quantidade,
-      dataValidade: formatData(editValues.dataValidade),
-    });
+    if (
+      editValues.idproduto === "" ||
+      editValues.idestoque === "" ||
+      editValues.quantidade === "" ||
+      editValues.lote === ""
+    ) {
+      toast.error("Preencha todos os campos!");
+    } else {
+      axios
+        .put("http://localhost:3002/editarProdutoEstoque", {
+          idproduto: editValues.idproduto,
+          idestoque: editValues.idestoque,
+          lote: editValues.lote,
+          quantidade: editValues.quantidade,
+          dataValidade: formatData(editValues.dataValidade),
+        })
+        .then((response) => {
+          toast.success(response.data);
+          handleClose();
+          console.log("editValues")
+          console.log(editValues.nome)
+          // Atualize a lista de dados no componente ExibirDados
+          const updatedDataList = props.listDados.map((data) => {
+            if (data.idestoque === editValues.idestoque) {
+              return {
+                ...data,
+                idproduto: editValues.idproduto,
+                idestoque: editValues.idestoque,
+                nome:editValues.nome,
+                lote: editValues.lote,
+                quantidade: editValues.quantidade,
+                dataValidade: formatData(editValues.dataValidade),
+              };
+            }
+            return data;
+          });
+
+          props.setListDados(updatedDataList);
+          
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            toast.warning(error.response.data);
+          } else {
+            toast.warning(error.response.data);
+          }
+        });
+    }
   };
 
   const handleDeleteProduto = () => {
-    console.log(`Id do item para remover ${editValues.idestoque}`);
-    axios.delete(
-      `http://localhost:3002/deleteProdutoEstoque/${editValues.idestoque}`
-    );
-    axios.delete(`http://localhost:3002/delete/${editValues.idproduto}`);
-    handleClose();
+    console.log("Id a ser removido:  " + editValues.idestoque)
+    let res = window.confirm("Deseja excluir o produto do estoque?");
+    if (res) {
+      axios
+        .delete(
+          `http://localhost:3002/deleteProdutoEstoque/${editValues.idestoque}`
+        )
+        .then((response) => {
+          
+          toast.success(response.data);
+          handleClose();
+        
+
+
+          // Atualize a lista de dados no componente ExibirDados após a exclusão
+          const updatedDataList = props.listDados.filter(
+            (data) => data.idestoque !== editValues.idestoque
+          );
+          props.setListDados(updatedDataList);
+        });
+      axios.delete(
+        `http://localhost:3002/deleteProdutoEstoque/${editValues.id}`
+      );
+    }
   };
+
+
+
 
   const handleClose = () => {
     props.setOpen(false);
   };
 
   const handleChangeValues = (event) => {
+    
     const { id, value } = event.target;
     setEditValues((prevValues) => ({
+   
       ...prevValues,
       [id]: value,
+    
     }));
+    console.log("")
+    console.log(editValues)
+
   };
 
   return (
@@ -71,13 +146,16 @@ export default function FormDialogEstoque(props) {
           <Form.Group controlId="idproduto">
             <Form.Label>Selecione um produto:</Form.Label>
             <Form.Control
+            
+              className={styles.comprimento}
               as="select"
               value={editValues.idproduto}
               onChange={handleChangeValues}
             >
               {produtos.map((produto) => (
-                <option key={produto.idproduto} value={produto.idproduto}>
-                  {produto.nome}
+                <option controlId="nome" onChange={handleChangeValues} key={produto.idproduto} value={produto.idproduto}>
+                  {produto.nome} - {produto.medida}
+                  {produto.unidade} - {produto.marca} - {produto.fornecedor}
                 </option>
               ))}
             </Form.Control>
@@ -112,9 +190,6 @@ export default function FormDialogEstoque(props) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Cancelar
-        </Button>
         <Button variant="danger" onClick={handleDeleteProduto}>
           Excluir
         </Button>

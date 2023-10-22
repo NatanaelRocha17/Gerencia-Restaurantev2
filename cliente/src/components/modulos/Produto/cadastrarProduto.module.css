@@ -4,6 +4,9 @@
     justify-content: center;
     margin: 3em;
 }
+h3{
+    font-weight: 900;
+}
 .formulario{
     border: solid rgb(133, 33, 33) 3px;
     border-radius:2em ;

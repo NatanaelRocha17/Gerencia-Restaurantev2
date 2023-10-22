@@ -7,7 +7,7 @@ import ExibirDadosEstoque from "./ExibirDadosEstoque";
 
 function Estoques() {
   const [produtosEstoque, setProdutosEstoque] = useState([]);
-  const [nomesProdutos, setNomesProdutos] = useState({});
+
   const [pesquisa, setPesquisa] = useState("");
 
   useEffect(() => {

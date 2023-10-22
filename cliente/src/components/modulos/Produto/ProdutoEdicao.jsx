@@ -13,7 +13,7 @@ function ProdutoEdicao() {
     nome: "",
     valorProduto: "0", // Defina o valor inicial como uma string
     marcaProduto: "",
-    unidadeMedida: "kg",
+    unidadeMedida: "",
     valorUnidadeMedida: "0", // Defina o valor inicial como uma string
     fornecedor: "",
   });

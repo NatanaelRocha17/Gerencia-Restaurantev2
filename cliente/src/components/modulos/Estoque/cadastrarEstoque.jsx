@@ -5,41 +5,63 @@ import Select from "./../../form/Select";
 import Input from "../../form/Input";
 import styles from "./cadastrarEstoque.module.css";
 import SubmitButton from "../../form/SubmitButton";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function CadastrarEstoque() {
+  const navigate = useNavigate();
   const formRef = useRef(); // Crie um ref para o formulário
+  const [formData, setFormData] = useState({
+    idproduto: "",
+    quantidade: "",
+    lote: "",
+    dataValidade: "",
+  });
   const [produtos, setProdutos] = useState([]);
-
 
   useEffect(() => {
     axios.get("http://localhost:3002/getProdutos").then((response) => {
+      console.log("response");
       console.log(response);
       setProdutos(response.data);
     });
   }, []);
 
-  function inputDados(e){
-    e.preventDefault()
-    const select = formRef.current.querySelector(
-      "select[name='produto']"
-    ).value; // Pega o valor do select (ID)
-    const quantidadeInput = formRef.current.querySelector(
-      "input[name='quantidade']"
-    );
-    const loteInput = formRef.current.querySelector("input[name='lote']");
-    const dataValidadeInput = formRef.current.querySelector(
-      "input[name='dataValidade']"
-    );
-
-
-    axios.post("http://localhost:3002/adicionarProdutoEstoque",{
-      idProduto: parseInt(select),
-      quantidade: quantidadeInput.value,
-      lote: loteInput.value,
-      dataValidade: dataValidadeInput.value
-    })
-  
+  function inputDados(e) {
+    e.preventDefault();
+    console.log(formData.idproduto);
+    axios
+      .post("http://localhost:3002/adicionarProdutoEstoque", {
+        idProduto: parseInt(formData.idproduto),
+        quantidade: formData.quantidade,
+        lote: formData.lote,
+        dataValidade: formData.dataValidade,
+      })
+      .then((response) => {
+        console.log(response.data);
+        toast.success(response.data);
+        setFormData({
+          idProduto: "",
+          quantidade: "",
+          lote: "",
+          dataValidade: "",
+        });
+        navigate("/estoque");
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 400) {
+          toast.warning(error.response.data);
+        } else {
+          toast.warning(error.response.data);
+        }
+      });
   }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   return (
     <div>
@@ -55,11 +77,26 @@ function CadastrarEstoque() {
           </div>
 
           <form onSubmit={inputDados} ref={formRef}>
-            <Select
-              name="produto"
-              text="Selecione um produto"
-              itens={produtos || []}
-            />
+            <label htmlFor="">Escolha o produto</label>
+            <select
+              id="idproduto"
+              name="idproduto"
+              className={styles.select}
+              value={formData.idproduto}
+              onChange={handleInputChange}
+            >
+              <option value="">Selecione um produto</option>
+              {produtos.map((iten) => (
+                <option
+                  className={styles.option}
+                  key={iten.idproduto}
+                  value={iten.idproduto}
+                >
+                  {iten.nome} - {iten.medida}
+                  {iten.unidade} - {iten.marca} - {iten.fornecedor}
+                </option>
+              ))}
+            </select>
 
             <Input
               className={styles.input}
@@ -67,6 +104,8 @@ function CadastrarEstoque() {
               text="Informe a quantidade do produto"
               type="number"
               placeholder="Quantidade de produtos"
+              value={formData.quantidade}
+              onChange={handleInputChange}
             />
 
             <Input
@@ -75,6 +114,8 @@ function CadastrarEstoque() {
               text="Informe o número do lote"
               type="number"
               placeholder="Número de Lote"
+              value={formData.lote}
+              onChange={handleInputChange}
             />
             <Input
               className={styles.input}
@@ -82,6 +123,8 @@ function CadastrarEstoque() {
               text="Informe a data de validade dos produtos desse lote"
               type="date"
               placeholder="Data de Validade"
+              value={formData.dataValidade}
+              onChange={handleInputChange}
             />
 
             <SubmitButton type="submit" text="Cadastrar" />

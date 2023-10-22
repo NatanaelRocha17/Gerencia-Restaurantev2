@@ -13,7 +13,12 @@
     color: #fff;
 }
 
-.dropdown{
+.comprimento{
+text-align: left;
 width: 100%;
 }
 
+
+.formControl{
+  text-align: left;
+}

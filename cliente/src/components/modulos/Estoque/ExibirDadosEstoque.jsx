@@ -10,6 +10,7 @@ function ExibirDadosEstoque(props) {
 const formatData = (date) => {
   if (date) {
     return new Date(date).toISOString().split("T")[0];
+
   }
   return "";
 };
@@ -20,10 +21,9 @@ const handleClickCard = () =>{
  }  
 
 
-
   return (
     <>
-      <FormDialogEstoque open={open} setOpen={setOpen} nome={props.dados.nome} lote={props.dados.lote} dataValidade={props.dados.dataValidade} quantidade={props.dados.quantidade} idestoque={props.dados.idestoque} idproduto={props.dados.idproduto}  listDados={props.listDados}/>
+      <FormDialogEstoque open={open} setOpen={setOpen} nome={props.dados.nome} lote={props.dados.lote} dataValidade={props.dados.dataValidade} quantidade={props.dados.quantidade} idestoque={props.dados.idestoque} idproduto={props.dados.idproduto}  listDados={props.listDados} setListDados={props.setListDados}/>
       <div className={styles.paiItem} onClick={() => handleClickCard()}>
         <div className={styles.item}>
         <div>

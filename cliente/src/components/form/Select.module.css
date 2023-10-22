@@ -1,7 +1,10 @@
 .form_control {
     display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    margin-bottom: 1em;
+    
   }
   
   .form_control label {
@@ -10,7 +13,58 @@
   }
   
   .form_control select {
-    padding: 0.7em;
+    width: 70%;
+    justify-content: center;
+
     border-radius: 0;
     border: none;
+  }
+
+  .form_control select {
+    width: 70%;
+    height: 45px;
+    border:solid 2px #7b7b7b;
+    border-radius: 10px;
+    padding: 0 10px;
+    font-size: 14px;
+    font-family: sans-serif;
+    margin-bottom: 10px;
+  }
+  
+  /* Seletor para as opções do select */
+  .option {
+    padding: 5px 10px;
+    background-color: #fff;
+    color: #222;
+    font-size: 14px;
+  }
+  
+  /* Seletor para a opção selecionada */
+  .form_control select option:hover,
+  .form_control select option:focus {
+    background-color: #ddd;
+    color: #000;
+  }
+  
+  /* Seletor para a seta do select */
+  .form_control select:after {
+    
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid #ccc;
+  }
+  
+  /* Seletor para o drop down do select */
+  .form_control select:focus:after {
+    border-left-color: #000;
+  }
+
+  label{
+    font-weight: bold;
+    width: 100%;
   }
