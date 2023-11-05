@@ -6,20 +6,23 @@ import styles from "./../../ExibirDados.module.css";
 
 function ExibirDadosEstoque(props) {
   
-// Function to format the date
-const formatData = (date) => {
-  if (date) {
-    return new Date(date).toISOString().split("T")[0];
+  // Function to format the date to Brazilian format (DD/MM/AAAA)
+  const formatData = (date) => {
+    if (date) {
+      const data = new Date(date);
+      const dia = data.getDate().toString().padStart(2, '0');
+      const mes = (data.getMonth() + 1).toString().padStart(2, '0'); // Lembre-se que os meses começam em 0 (janeiro é 0)
+      const ano = data.getFullYear();
+      return `${dia}/${mes}/${ano}`;
+    }
+    return "";
+  };
 
-  }
-  return "";
-};
-const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
-const handleClickCard = () =>{
-  setOpen(true);
- }  
-
+  const handleClickCard = () => {
+    setOpen(true);
+  }  
 
   return (
     <>
@@ -40,7 +43,7 @@ const handleClickCard = () =>{
         </div>
         </div>
       </div>
-      </>
+    </>
   );
 }
 

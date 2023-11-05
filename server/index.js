@@ -15,8 +15,9 @@ const db = mysql.createPool({
 
 app.use(cors()); // Chame a função cors aqui
 app.use(express.json());
-//Banco de dados tabela Produto
 
+
+//Banco de dados tabela Produto
 app.post("/registerProduto", (req, res) => {
   const { nome, valor, marca, unidade, medida, fornecedor } = req.body;
   console.log(unidade + "--> " + medida);
@@ -48,7 +49,7 @@ app.post("/registerProduto", (req, res) => {
               return res.status(500).json("Erro ao criar o produto.");
             }
 
-            return res.status(200).json("Produto criado com sucesso.");
+            return res.status(200).json("Produto cadastrado com sucesso!");
           }
         );
       }
@@ -74,10 +75,10 @@ app.put("/editarProduto", (req, res) => {
   const { fornecedor } = req.body;
   const { idproduto } = req.body;
 
-  const SQL2 ="SELECT * FROM produtos WHERE nome = ? AND marca = ? AND unidade = ? AND medida = ? AND fornecedor = ?";
+  const SQL2 ="SELECT * FROM produtos WHERE nome = ? AND marca = ? AND valor = ? AND unidade = ? AND medida = ? AND fornecedor = ?";
   const result2 = db.query(
     SQL2,
-    [nome, marca, unidade, medida, fornecedor],
+    [nome, marca, valor,unidade, medida, fornecedor],
     (err, result2) => {
       console.log(result2);
       if (result2.length > 0) {

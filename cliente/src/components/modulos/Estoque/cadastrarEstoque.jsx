@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Menu from "./../../../Menu";
-import Select from "./../../form/Select";
 import Input from "../../form/Input";
 import styles from "./cadastrarEstoque.module.css";
 import SubmitButton from "../../form/SubmitButton";
@@ -112,7 +111,7 @@ function CadastrarEstoque() {
               className={styles.input}
               name="lote"
               text="Informe o número do lote"
-              type="number"
+              type="text"
               placeholder="Número de Lote"
               value={formData.lote}
               onChange={handleInputChange}

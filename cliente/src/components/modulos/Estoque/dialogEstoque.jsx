@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Dropdown } from "react-bootstrap";
+//import { Dropdown } from "react-bootstrap";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./dialogEstoque.module.css";
@@ -73,7 +73,7 @@ export default function FormDialogEstoque(props) {
             }
             return data;
           });
-
+          window.location.reload()
           props.setListDados(updatedDataList);
           
         })

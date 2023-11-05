@@ -173,7 +173,7 @@ export default function FormDialog(props) {
                 <Dropdown.Item
                   onClick={() =>
                     handleChangeValues({
-                      target: { id: "unidade", value: "litros" },
+                      target: { id: "unidade", value: "L" },
                     })
                   }
                 >

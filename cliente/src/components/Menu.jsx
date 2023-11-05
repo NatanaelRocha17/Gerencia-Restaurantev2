@@ -1,27 +1,29 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./Menu.module.css";
 import logo from "./../imagens/logo.png";
 
 function Menu() {
+
+  
   return (
     <header>
       <div className={`${styles.logo}`}>
-        <Link activeClassName="active-button" to="/">
+        <NavLink  to="/">
           <img src={logo} alt="" />
-        </Link>
+        </NavLink>
       </div>
       <div className={`${styles.links}`}>
         <nav>
           <ul>
             <li>
-              <Link to="/produtos" >
+              <NavLink to="/produtos">
                 Produto
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/estoque" >
+              <NavLink to="/estoque" >
                 Estoque
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </nav>

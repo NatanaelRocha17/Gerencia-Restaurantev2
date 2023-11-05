@@ -6,14 +6,7 @@ import styles from "./ExibirDados.module.css";
 
 function ExibirDados(props) {
   // Function to format the date
-  console.log("hey")
-  console.log(props)
-  const formatData = (date) => {
-    if (date) {
-      return new Date(date).toISOString().split("T")[0];
-    }
-    return "";
-  };
+  
 
   const [open, setOpen] = useState(false);
 
