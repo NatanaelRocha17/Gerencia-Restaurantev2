@@ -3,14 +3,17 @@ li {
     margin: 0 8rem;
     padding: 1rem;
 }
-
-a{
+.link{
+    color: #f0eded;
+    text-decoration: none;
+    font-weight: bold;
     transition: .5s;
     padding: .5rem;
     border-radius: 15px;
 }
+
 ul {
-    justify-content: space-between;
+    width: 1px;
     display: flex;
     margin-top: 16px;
 }
@@ -20,11 +23,10 @@ img {
 }
 
 header {
-    justify-content: space-between;
     align-items: center;
     width: 100%;
-    display: flex;
     background-color: #9A3432;
+    display: flex;
 
 }
 
@@ -33,16 +35,17 @@ header {
     color: #9A3432;
 }
 
-.links {
-    width: 80%;
 
-}
 li{
+    margin-left: 7em;
+    margin-right: auto;
     border-radius: 15px;
 }
+
 .current {
-    background-color: red;
+    background-color: 9A3333;
     color: white;
     font-weight: bold;
 }
+
 

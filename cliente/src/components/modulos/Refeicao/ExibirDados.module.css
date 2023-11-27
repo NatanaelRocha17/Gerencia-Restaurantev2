@@ -1,0 +1,37 @@
+/* SeuArquivoCSS.module.css (substitua pelo caminho correto) */
+.paiItem {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .item {
+    cursor: pointer;
+    font-size: 5pt;
+    border: solid black 2px;
+    border-radius: 20px;
+    padding: 0.5em;
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    color: #9a3333;
+  }
+  
+  .item:hover {
+    background-color: #9a3333;
+    color: #fff;
+    transition: 0.5s;
+  }
+  
+  .item div {
+    width: 20%;
+  }
+  
+  .menu {
+    width: 33%;
+    display: flex;
+    justify-content: space-around;
+  }
+  

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -18,20 +18,16 @@ export default function FormDialog(props) {
     fornecedor: props.fornecedor,
   });
 
-  
   const handleEditProduto = () => {
     if (
       editValues.nome.trim() === "" ||
       editValues.valor.trim() === "" ||
-      editValues.marca.trim() === "" ||
       editValues.unidade.trim() === "" ||
       editValues.medida.trim() === "" ||
       editValues.fornecedor.trim() === ""
     ) {
       toast.error("Preencha todos os campos!");
-     
     } else {
-   
       axios
         .put("http://localhost:3002/editarProduto", {
           idproduto: editValues.id,
@@ -73,9 +69,11 @@ export default function FormDialog(props) {
           }
         });
     }
-  }
+  };
   const handleDeleteProduto = async () => {
-    let res = window.confirm("Ao excluir esse produto, o mesmo será removido também dos outros módulos. Deseja confirmar?");
+    let res = window.confirm(
+      "Ao excluir esse produto, o mesmo será removido também dos outros módulos. Deseja confirmar?"
+    );
     if (res) {
       axios
         .delete(`http://localhost:3002/delete/${editValues.id}`)
@@ -84,14 +82,16 @@ export default function FormDialog(props) {
           handleClose();
 
           // Atualize a lista de dados no componente ExibirDados após a exclusão
-          const updatedDataList = props.listDados.filter((data) => data.idproduto !== editValues.id);
+          const updatedDataList = props.listDados.filter(
+            (data) => data.idproduto !== editValues.id
+          );
           props.setListDados(updatedDataList);
         });
-        axios.delete(
-          `http://localhost:3002/deleteProdutoEstoque/${editValues.id}`
-        );
+      axios.delete(
+        `http://localhost:3002/deleteProdutoEstoque/${editValues.id}`
+      );
     }
-  }
+  };
 
   const handleClose = () => {
     props.setOpen(false);
@@ -105,6 +105,22 @@ export default function FormDialog(props) {
     }));
   };
 
+  const [fornecedores, setFornecedores] = useState([]);
+  useEffect(() => {
+    const getFornecedor = async () => {
+      try {
+        const response = await axios.get("http://localhost:3002/getFornecedor");
+        const savedData = response.data;
+        console.log(savedData);
+        setFornecedores(savedData);
+      } catch (error) {
+        console.error("Erro ao recuperar os dados:", error);
+      }
+    };
+
+    getFornecedor();
+  }, []);
+
   return (
     <Modal show={props.open} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -116,101 +132,85 @@ export default function FormDialog(props) {
             <Form.Label>Nome do Produto</Form.Label>
             <Form.Control
               type="text"
+              className={styles.text}
               value={editValues.nome}
               onChange={handleChangeValues}
             />
-       
           </Form.Group>
           <Form.Group controlId="valor">
             <Form.Label>Preço do Produto</Form.Label>
             <Form.Control
               type="number"
+              className={styles.text}
               value={editValues.valor}
               onChange={handleChangeValues}
             />
-            
           </Form.Group>
 
           <Form.Group controlId="marca">
             <Form.Label>Marca do Produto</Form.Label>
             <Form.Control
               type="text"
+              className={styles.text}
               value={editValues.marca}
               onChange={handleChangeValues}
             />
-            
           </Form.Group>
 
-          <Form.Group controlId="unidade">
-            <Form.Label>Selecione a unidade de medida</Form.Label>
-            <Dropdown className={styles.comprimento}>
-              <Dropdown.Toggle
-                className={styles.comprimento}
-                style={{ background: "white", color: "black"}}
-                variant="secondary"
-              >
-                {editValues.unidade}
-              </Dropdown.Toggle>
-              <Dropdown.Menu className={styles.comprimento}>
-                <Dropdown.Item
-                  onClick={() =>
-                    handleChangeValues({
-                      target: { id: "unidade", value: "kg" },
-                    })
-                  }
-                >
-                  Quilogramas (kg)
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() =>
-                    handleChangeValues({
-                      target: { id: "unidade", value: "g" },
-                    })
-                  }
-                >
-                  Gramas (g)
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() =>
-                    handleChangeValues({
-                      target: { id: "unidade", value: "L" },
-                    })
-                  }
-                >
-                  Litros (L)
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() =>
-                    handleChangeValues({
-                      target: { id: "unidade", value: "ml" },
-                    })
-                  }
-                >
-                  Mililitros (ml)
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Form.Group>
+          <div>
+            <label htmlFor="unidade">Selecione a medida:</label>
+
+            <select
+              id="unidade"
+              name="unidade"
+              className={styles.select}
+              value={editValues.unidade}
+              onChange={handleChangeValues}
+            >
+              <option value="kg">Quilogramas (kg)</option>
+              <option value="g">Gramas (g)</option>
+              <option value="L">Litros (L)</option>
+              <option value="ml">Mililitros (ml)</option>
+              <option value="u">Unidade (u)</option>
+            </select>
+          </div>
 
           <Form.Group controlId="medida">
             <Form.Label>Medida do Produto</Form.Label>
             <Form.Control
+            className={styles.text}
               type="text"
               value={editValues.medida}
               onChange={handleChangeValues}
             />
-           
           </Form.Group>
-
-          <Form.Group controlId="fornecedor">
-            <Form.Label>Fornecedor do Produto</Form.Label>
-            <Form.Control
-              type="text"
-              value={editValues.fornecedor}
-              onChange={handleChangeValues}
-            />
-            
-          </Form.Group>
+          <>
+            <div className={styles.fornecedor}>
+              <label htmlFor="">Selecione um fornecedor:</label>
+              <select
+                id="fornecedor"
+                name="fornecedor"
+                
+                className={styles.select}
+                value={editValues.fornecedor}
+                onChange={handleChangeValues}
+              >
+                <option value="">Selecione um fornecedor</option>
+                <option value="Produto sem fornecedor">
+                  Produto sem fornecedor
+                </option>
+                {fornecedores.map((iten) => (
+                  <option
+                    className={styles.option}
+                    key={iten.id}
+                    value={iten.razao_social}
+                  >
+                    {iten.razao_social}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </>
         </Form>
       </Modal.Body>
       <Modal.Footer>

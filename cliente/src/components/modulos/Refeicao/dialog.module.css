@@ -1,0 +1,30 @@
+/* SeuArquivoCSS.module.css (substitua pelo caminho correto) */
+.botao {
+  font-size: 1em;
+  padding: 0.5em;
+  cursor: pointer;
+  background-color: transparent;
+  border: solid 1px #000;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+
+.botao:hover {
+  background-color: #9a3333;
+  color: #fff;
+}
+
+.comprimento {
+  text-align: left;
+  width: 100%;
+}
+
+.formControl {
+  text-align: left;
+}
+
+.error {
+  color: #9a3333;
+  font-size: 0.8em;
+  margin-top: 0.2em;
+}

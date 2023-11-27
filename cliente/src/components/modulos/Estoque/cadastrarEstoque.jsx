@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import Menu from "./../../../Menu";
+import Menu from "../../Menu";
 import Input from "../../form/Input";
-import styles from "./cadastrarEstoque.module.css";
+import style from "./cadastrarEstoque.module.css";
 import SubmitButton from "../../form/SubmitButton";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -65,10 +65,10 @@ function CadastrarEstoque() {
   return (
     <div>
       <Menu />
-      <div className={styles.product}>
-        <div className={styles.formulario}>
+      <div className={style.product}>
+        <div className={style.formulario}>
           <div>
-            <h1>Cadastrar Produto no Estoque</h1>
+            <h3>Cadastrar Produto no Estoque</h3>
             <p>
               Informe o produto e preencha os dados desse lote no qual você
               comprou
@@ -80,14 +80,14 @@ function CadastrarEstoque() {
             <select
               id="idproduto"
               name="idproduto"
-              className={styles.select}
+            required
               value={formData.idproduto}
               onChange={handleInputChange}
             >
               <option value="">Selecione um produto</option>
               {produtos.map((iten) => (
                 <option
-                  className={styles.option}
+                  className={style.option}
                   key={iten.idproduto}
                   value={iten.idproduto}
                 >
@@ -96,19 +96,20 @@ function CadastrarEstoque() {
                 </option>
               ))}
             </select>
-
-            <Input
-              className={styles.input}
+          <div className={style.inputs}>
+          <Input
+              className={style.caixa}
               name="quantidade"
               text="Informe a quantidade do produto"
               type="number"
+              requerido={true}
               placeholder="Quantidade de produtos"
               value={formData.quantidade}
               onChange={handleInputChange}
             />
 
             <Input
-              className={styles.input}
+              className={style.caixa}
               name="lote"
               text="Informe o número do lote"
               type="text"
@@ -117,14 +118,17 @@ function CadastrarEstoque() {
               onChange={handleInputChange}
             />
             <Input
-              className={styles.input}
+              className={style.caixa}
               name="dataValidade"
               text="Informe a data de validade dos produtos desse lote"
               type="date"
+              requerido={true}
               placeholder="Data de Validade"
               value={formData.dataValidade}
               onChange={handleInputChange}
             />
+          </div>
+           
 
             <SubmitButton type="submit" text="Cadastrar" />
           </form>

@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 1.5em;
+    margin: 1em;
 }
 h3{
     font-weight: 900;
@@ -10,7 +10,7 @@ h3{
 .formulario{
     border: solid rgb(133, 33, 33) 3px;
     border-radius:2em ;
-    padding: 1em;
+    padding: 2em;
     width: 60%;
     text-align: center;
     margin-bottom: 2em;
@@ -22,6 +22,7 @@ p{
 }
 
 input{
+    width: 100%;
     display: flex;
     padding: .5em;
 }
@@ -33,7 +34,7 @@ button{
 /* Seletor para o select */
 .select {
     width: 70%;
-    height: 45px;
+    height: 40px;
     border:solid 2px #7b7b7b;
     border-radius: 10px;
     padding: 0 10px;
@@ -76,27 +77,11 @@ button{
   }
 
   label{
-    margin-top: 0px;
     font-weight: bold;
     width: 100%;
   }
 
-  
 .inputs{
   justify-content: space-around;
   display: flex;
-}
-
-.fornecedor{
-  width: 50%;
-}
-
-
-.medida{
-  margin-left: 50px;
-}
-
-.medida Input{
-  width: 250px;
-
 }

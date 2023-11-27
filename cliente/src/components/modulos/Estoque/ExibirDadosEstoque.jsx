@@ -2,7 +2,7 @@ import React from "react";
 import FormDialogEstoque from "./../Estoque/dialogEstoque";
 import { Link } from "react-router-dom";
 
-import styles from "./../../ExibirDados.module.css";
+import styles from "./ExibirDadosEstoque.module.css";
 
 function ExibirDadosEstoque(props) {
   

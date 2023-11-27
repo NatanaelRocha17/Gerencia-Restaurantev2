@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Menu from "./../../Menu";
 import Busca from "./../../search/Busca";
-import ExibirDados from "./../../ExibirDados";
+import ExibirDados from "./ExibirDados";
 import styles from "./../Produto/Produtos.module.css";
 
 const Produtos = () => {

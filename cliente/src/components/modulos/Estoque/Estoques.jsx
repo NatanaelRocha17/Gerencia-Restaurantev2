@@ -2,8 +2,10 @@ import Menu from "./../../Menu";
 import Busca from "./../../search/Busca";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import styles from "./../Produto/Produtos.module.css";
+import styles from "./Estoques.module.css";
 import ExibirDadosEstoque from "./ExibirDadosEstoque";
+import Botao from "./../../form/Botao";
+import MenuLateral from "./MenuLateral";
 
 function Estoques() {
   const [produtosEstoque, setProdutosEstoque] = useState([]);
@@ -13,7 +15,9 @@ function Estoques() {
   useEffect(() => {
     const getProdutosEstoque = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/getProdutosEstoque");
+        const response = await axios.get(
+          "http://localhost:3002/getProdutosEstoque"
+        );
         const savedData = response.data;
         console.log(savedData);
         setProdutosEstoque(savedData);
@@ -24,6 +28,8 @@ function Estoques() {
 
     getProdutosEstoque();
   }, []);
+
+  console.log(produtosEstoque)
 
   const renderProdutosEstoque = () => {
     const produtosFiltrados = produtosEstoque.filter(
@@ -69,19 +75,28 @@ function Estoques() {
   };
 
   return (
-    <div>
+    <>
       <Menu />
+      
+      <div className={styles.exibicao}>
+        <div className={styles.menu}>
+          <MenuLateral />
+        </div>
+        <div className={styles.produtos}>
+   
       <Busca
         rota="/cadastrarEstoque"
         onChange={(e) => setPesquisa(e.target.value)}
         tipo="Produto no Estoque"
       />
-      {produtosEstoque.length === 0 ? (
-        <h1>Não há produtos adicionados ao estoque</h1>
-      ) : (
-        renderProdutosEstoque()
-      )}
-    </div>
+          {produtosEstoque.length === 0 ? (
+            <h1>Não há produtos adicionados ao estoque</h1>
+          ) : (
+            renderProdutosEstoque()
+          )}
+        </div>
+      </div>
+    </>
   );
 }
 

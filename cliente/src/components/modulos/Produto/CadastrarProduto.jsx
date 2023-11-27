@@ -26,7 +26,7 @@ function CadastrarProduto() {
 
   async function inputDados(e) {
     e.preventDefault();
-    console.log(formData)
+    console.log(formData);
 
     axios
       .post("http://localhost:3002/registerProduto", formData)
@@ -41,7 +41,7 @@ function CadastrarProduto() {
           unidade: "kg",
           fornecedor: "",
         });
-        navigate('/produtos');
+        navigate("/produtos");
       })
       .catch((error) => {
         console.log(error);
@@ -58,6 +58,22 @@ function CadastrarProduto() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const [fornecedores, setFornecedores] = useState([]);
+  useEffect(() => {
+    const getFornecedor = async () => {
+      try {
+        const response = await axios.get("http://localhost:3002/getFornecedor");
+        const savedData = response.data;
+        console.log(savedData);
+        setFornecedores(savedData);
+      } catch (error) {
+        console.error("Erro ao recuperar os dados:", error);
+      }
+    };
+
+    getFornecedor();
+  }, []);
+
   return (
     <>
       <Menu />
@@ -68,47 +84,91 @@ function CadastrarProduto() {
             Pode ser o que você utiliza nas refeições (verduras, mantimentos) ou
             os acompanhamentos (refrigerante, cerveja)
           </p>
-          <form onSubmit={inputDados} ref={FormRef}>
-            <div>
-              <Input
-                type="text"
-                name="nome"
-                id="nome"
-                text="Nome do produto"
-                placeholder="Digite o nome do produto"
-                required
-                value={formData.nome}
-                onChange={handleInputChange}
-              />
+          <div>
+            <form onSubmit={inputDados} ref={FormRef}>
+              <div className={styles.inputs}>
+                <Input
+                  type="text"
+                  name="nome"
+                  id="nome"
+                  text="Nome do produto"
+                  placeholder="Digite o nome do produto"
+                  requerido= {true}
+                  value={formData.nome}
+                  onChange={handleInputChange}
+                />
 
-              <Input
-                type="number"
-                step="0.01"
-                placeholder="10,00"
-                name="valor"
-                id="valor"
-                text="Valor do produto R$:"
-                value={formData.valor}
-                onChange={handleInputChange}
-              />
+                <Input
+                  type="number"
+                  step="0.01"
+                  placeholder="10,00"
+                  name="valor"
+                  id="valor"
+                  text="Valor do produto R$"
+                  requerido= {true}
+                  value={formData.valor}
+                  onChange={handleInputChange}
+                />
+                <Input
+                  text="Marca do produto"
+                  type="text"
+                  name="marca"
+                  id="marca"
+                  placeholder="Digite a marca do produto"
+                  value={formData.marca}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div />
 
-              <Input
-                text="Marca do produto"
-                type="text"
-                name="marca"
-                id="marca"
-                placeholder="Digite a marca do produto"
-                value={formData.marca}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
+              <div className={styles.inputs}>
+                <div className={styles.medida}>
+                <Input
+                  type="number"
+                  step="0.01"
+                  text="Valor da unidade de medida"
+                  name="medida"
+                  id="medida"
+                  requerido= {true}
+                  placeholder="Informe o valor da unidade de medida"
+                  value={formData.medida}
+                  onChange={handleInputChange}
+                />
+                </div>
+                
+
+                <div className={styles.fornecedor}>
+                  <label htmlFor="">Selecione um fornecedor:</label>
+                  <select
+                    id="fornecedor"
+                    name="fornecedor"
+                    
+                    required
+                    className={styles.select}
+                    value={formData.fornecedor}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Selecione um fornecedor</option>
+                    <option value="Produto sem fornecedor">Produto sem fornecedor</option>
+                    {fornecedores.map((iten) => (
+                      <option
+                        className={styles.option}
+                        key={iten.id}
+                        value={iten.razao_social}
+                      >
+                        {iten.razao_social}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
               <label htmlFor="unidade">Selecione a medida:</label>
 
               <select
                 id="unidade"
                 name="unidade"
                 className={styles.select}
+                required
                 value={formData.unidade}
                 onChange={handleInputChange}
               >
@@ -116,36 +176,16 @@ function CadastrarProduto() {
                 <option value="g">Gramas (g)</option>
                 <option value="L">Litros (L)</option>
                 <option value="ml">Mililitros (ml)</option>
+                <option value="u">Unidade (u)</option>
               </select>
 
-              <Input
-                type="number"
-                step="0.01"
-                text="Valor da unidade de medida"
-                name="medida"
-                id="medida"
-                placeholder="Informe o valor da unidade de medida"
-                value={formData.medida}
-                onChange={handleInputChange}
+              <SubmitButton
+                type="submit"
+                text="Cadastrar"
+                subm="Produto cadastrado!"
               />
-
-              <Input
-                type="text"
-                placeholder="Digite o nome do fornecedor"
-                text="Fornecedor"
-                name="fornecedor"
-                id="fornecedor"
-                value={formData.fornecedor}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <SubmitButton
-              type="submit"
-              text="Cadastrar"
-              subm="Produto cadastrado!"
-            />
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </>

@@ -1,19 +1,22 @@
 .pesquisa{
-    margin-top: 2em;
+  
     text-align: center;
    
 }
 .formulario{
     display: flex;
     justify-content: center;
-    align-items: center;
+    
+    padding-top: 1em;
 }
 
 .pesquisa input{
-
+    align-items: center;
     width: 30%;
 }
 
 .botao{
+    margin-top: 2px;
     margin-left: 3em;
+    background-color: #9A3333;
 }

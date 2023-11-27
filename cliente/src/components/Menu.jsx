@@ -16,13 +16,28 @@ function Menu() {
         <nav>
           <ul>
             <li>
-              <NavLink to="/produtos">
+              <NavLink to="/produtos" className={styles.link}>
                 Produto
               </NavLink>
             </li>
             <li>
-              <NavLink to="/estoque" >
+              <NavLink to="/estoque" className={styles.link}>
                 Estoque
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/clientes" className={styles.link}> 
+               Cliente
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/fornecedores" className={styles.link}>
+                Fornecedor
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/refeicoes" className={styles.link}>
+              Refeição
               </NavLink>
             </li>
           </ul>
