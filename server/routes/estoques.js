@@ -1,5 +1,3 @@
-
-
 const { getEstoque, uptadeEstoque, deleteEstoque, addEstoque } = require("../controllers/estoque.js");
 ;
 
