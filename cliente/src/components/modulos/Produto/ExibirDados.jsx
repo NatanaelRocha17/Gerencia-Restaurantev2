@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormDialog from "./dialog";
+import axios from "axios";
 
 
 import styles from "./ExibirDados.module.css";
@@ -14,12 +15,14 @@ function ExibirDados(props) {
     setOpen(true); // Abra o modal ao clicar no card
   };
 
+  console.log(props.dados.fornecedor.razao_social)
+
   return (
     <>
       <FormDialog
         open={open}
         setOpen={setOpen}
-        nome={props.dados.nome} unidade={props.dados.unidade} id={props.dados.idproduto} medida={props.dados.medida} marca={props.dados.marca} fornecedor={props.dados.fornecedor} valor = {props.dados.valor} listDados={props.listDados}
+        nome={props.dados.nome} unidade={props.dados.unidade} id={props.dados.idproduto} idfornecedor={props.dados.idfornecedor}  medida={props.dados.medida} marca={props.dados.marca} fornecedor={props.dados.fornecedor} valor = {props.dados.valor} listDados={props.listDados}
         setListDados={props.setListDados}
       />
       <div className={styles.paiItem} >
@@ -36,7 +39,7 @@ function ExibirDados(props) {
           <h5>{props.dados.marca === "" ? "Marca não cadastrada" : props.dados.marca}</h5>
           </div>
           <div>
-            <h5>{props.dados.fornecedor}</h5>
+            <h5>{props.dados.fornecedor.razao_social}</h5>
           </div>
         </div>
       </div>

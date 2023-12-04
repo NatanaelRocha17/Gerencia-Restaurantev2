@@ -74,6 +74,16 @@ function CadastrarProduto() {
     getFornecedor();
   }, []);
 
+  const [fornecedoresNomes, setFornecedoresNomes] = useState({});
+
+  useEffect(() => {
+    const fornecedoresNomesMap = {};
+    fornecedores.forEach((fornecedor) => {
+      fornecedoresNomesMap[fornecedor.id] = fornecedor.razao_social;
+    });
+    setFornecedoresNomes(fornecedoresNomesMap);
+  }, [fornecedores]);
+
   return (
     <>
       <Menu />
@@ -91,9 +101,9 @@ function CadastrarProduto() {
                   type="text"
                   name="nome"
                   id="nome"
-                  text="Nome do produto"
+                  text="Nome do produto *"
                   placeholder="Digite o nome do produto"
-                  requerido= {true}
+                  requerido={true}
                   value={formData.nome}
                   onChange={handleInputChange}
                 />
@@ -104,8 +114,8 @@ function CadastrarProduto() {
                   placeholder="10,00"
                   name="valor"
                   id="valor"
-                  text="Valor do produto R$"
-                  requerido= {true}
+                  text="Valor do produto R$ *"
+                  requerido={true}
                   value={formData.valor}
                   onChange={handleInputChange}
                 />
@@ -123,46 +133,47 @@ function CadastrarProduto() {
 
               <div className={styles.inputs}>
                 <div className={styles.medida}>
-                <Input
-                  type="number"
-                  step="0.01"
-                  text="Valor da unidade de medida"
-                  name="medida"
-                  id="medida"
-                  requerido= {true}
-                  placeholder="Informe o valor da unidade de medida"
-                  value={formData.medida}
-                  onChange={handleInputChange}
-                />
+                  <Input
+                    type="number"
+                    step="0.01"
+                    text="Valor da unidade de medida *"
+                    name="medida"
+                    id="medida"
+                    requerido={true}
+                    placeholder="Informe o valor da unidade de medida"
+                    value={formData.medida}
+                    onChange={handleInputChange}
+                  />
                 </div>
-                
 
                 <div className={styles.fornecedor}>
-                  <label htmlFor="">Selecione um fornecedor:</label>
+                  <label htmlFor="">Selecione um fornecedor *:</label>
                   <select
                     id="fornecedor"
                     name="fornecedor"
-                    
                     required
                     className={styles.select}
                     value={formData.fornecedor}
                     onChange={handleInputChange}
                   >
                     <option value="">Selecione um fornecedor</option>
-                    <option value="Produto sem fornecedor">Produto sem fornecedor</option>
-                    {fornecedores.map((iten) => (
+                    <option value="0">
+                      Produto sem fornecedor
+                    </option>
+                    {fornecedores.map((fornecedor) => (
                       <option
                         className={styles.option}
-                        key={iten.id}
-                        value={iten.razao_social}
+                        key={fornecedor.id}
+                        value={fornecedor.id}
+                        selected={fornecedor.id === formData.fornecedor}
                       >
-                        {iten.razao_social}
+                        {fornecedoresNomes[fornecedor.id]}
                       </option>
                     ))}
                   </select>
                 </div>
               </div>
-              <label htmlFor="unidade">Selecione a medida:</label>
+              <label htmlFor="unidade">Selecione a medida *:</label>
 
               <select
                 id="unidade"

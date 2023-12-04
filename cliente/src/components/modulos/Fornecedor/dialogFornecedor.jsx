@@ -7,6 +7,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./dialogFornecedor.module.css";
 import { toast } from "react-toastify";
+import InputMask from "react-input-mask";
 
 export default function FormDialogEstoque(props) {
   console.log(props);
@@ -15,7 +16,7 @@ export default function FormDialogEstoque(props) {
     razao_social: props.dados.razao_social,
     telefone: props.dados.telefone,
     email: props.dados.email,
-    cnpj: props.dados.cnpj,
+    cnpj: props.dados.cnpj === "" ? "CNPJ não informado" : props.dados.cnpj,
     logradouro: props.dados.enderecos[0].rua,
     cep: props.dados.enderecos[0].codigo_postal,
     numero: props.dados.enderecos[0].numero,
@@ -28,7 +29,13 @@ export default function FormDialogEstoque(props) {
     if (
       editValues.id === "" ||
       editValues.razao_social === "" ||
-      editValues.cnpj === ""
+      editValues.telefone === "" ||
+      editValues.logradouro === "" ||
+      editValues.cep === "" ||
+      editValues.cidade === "" ||
+      editValues.uf === "" ||
+      editValues.bairro === ""
+
     ) {
       toast.error("Preencha todos os campos!");
     } else {
@@ -109,28 +116,36 @@ export default function FormDialogEstoque(props) {
     props.setOpen(false);
   };
 
+  
+  const handleCnpjMask = (value) => {
+    const cleanedValue = value.replace(/\D/g, '');
+    const cnpjWithMask = cleanedValue.replace(
+      /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
+      '$1.$2.$3/$4-$5'
+    );
+    return cnpjWithMask;
+  };
+
   const handleChangeValues = (event) => {
     const { id, value } = event.target;
     setEditValues((prevValues) => ({
       ...prevValues,
       [id]: value,
     }));
-    console.log("");
-    console.log(editValues);
   };
   console.log("VENDO" + editValues.razao_social);
   return (
     <Modal show={props.open} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>
-          Editar dados do(a) fornecedor: {props.dados.razao_social}
+        Alterar dados do(a) fornecedor: {props.dados.razao_social}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <div className={styles.inputs}>
             <Form.Group controlId="razao_social">
-              <Form.Label>Razão Social</Form.Label>
+              <Form.Label>Razão Social *</Form.Label>
               <Form.Control
                 type="text"
                 value={editValues.razao_social}
@@ -139,17 +154,22 @@ export default function FormDialogEstoque(props) {
             </Form.Group>
 
             <Form.Group controlId="cnpj">
-              <Form.Label>Informe o CNPJ</Form.Label>
-              <Form.Control
-                type="text"
-                value={editValues.cnpj}
-                onChange={handleChangeValues}
-              />
+              <Form.Label>Informe o CNPJ </Form.Label>
+              <InputMask
+              
+                value={handleCnpjMask(editValues.cnpj)}
+                onChange={(e) => {
+                  const formattedCnpj = handleCnpjMask(e.target.value);
+                  setEditValues({ ...editValues, cnpj: formattedCnpj });
+                }}
+              >
+                {(inputProps) => <Form.Control {...inputProps} />}
+              </InputMask>
             </Form.Group>
           </div>
           <div className={styles.inputs}>
             <Form.Group controlId="telefone">
-              <Form.Label>Contato do fornecedor</Form.Label>
+              <Form.Label>Contato do fornecedor *:</Form.Label>
               <Form.Control
                 type="tel"
                 value={editValues.telefone}
@@ -158,7 +178,7 @@ export default function FormDialogEstoque(props) {
             </Form.Group>
 
             <Form.Group controlId="email">
-              <Form.Label>Endereço de e-mail</Form.Label>
+              <Form.Label>Endereço de e-mail *:</Form.Label>
               <Form.Control
                 type="email"
                 value={editValues.email}
@@ -169,7 +189,7 @@ export default function FormDialogEstoque(props) {
           <div className="addres">
             <div className={styles.inputs}>
               <Form.Group controlId="cep">
-                <Form.Label>CEP:</Form.Label>
+                <Form.Label>CEP *:</Form.Label>
                 <Form.Control
                   type="text"
                   value={editValues.cep}
@@ -179,7 +199,7 @@ export default function FormDialogEstoque(props) {
               </Form.Group>
 
               <Form.Group controlId="logradouro">
-                <Form.Label>Logradouro:</Form.Label>
+                <Form.Label>Logradouro *:</Form.Label>
                 <Form.Control
                   type="text"
                   value={editValues.logradouro}
@@ -198,7 +218,7 @@ export default function FormDialogEstoque(props) {
               </Form.Group>
 
               <Form.Group controlId="bairro">
-                <Form.Label>Bairro:</Form.Label>
+                <Form.Label>Bairro *:</Form.Label>
                 <Form.Control
                   type="text"
                   value={editValues.bairro}
@@ -208,7 +228,7 @@ export default function FormDialogEstoque(props) {
             </div>
             <div className={styles.inputs}>
               <Form.Group controlId="cidade">
-                <Form.Label>Cidade:</Form.Label>
+                <Form.Label>Cidade *:</Form.Label>
                 <Form.Control
                   type="text"
                   value={editValues.cidade}
@@ -217,7 +237,7 @@ export default function FormDialogEstoque(props) {
               </Form.Group>
 
               <Form.Group controlId="uf">
-                <Form.Label>UF:</Form.Label>
+                <Form.Label>UF *:</Form.Label>
                 <Form.Control
                   type="text"
                   value={editValues.uf}

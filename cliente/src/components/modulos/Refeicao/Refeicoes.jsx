@@ -8,6 +8,7 @@ import styles from "./Refeicoes.module.css";
 const Refeicoes = () => {
   const [refeicoes, setRefeicoes] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
+  const [startIndex, setStartIndex] = useState(0);
 
   useEffect(() => {
     const getRefeicoes = async () => {
@@ -31,8 +32,11 @@ const Refeicoes = () => {
         refeicao.nome.toLowerCase().includes(pesquisa.toLowerCase())
     );
 
-    if (refeicoesFiltradas.length === 0) {
-      return <h1>Nenhuma refeição encontrada</h1>;
+    const endIndex = startIndex + 10;
+    const refeicoesExibidas = refeicoesFiltradas.slice(startIndex, endIndex);
+
+    if (refeicoesExibidas.length === 0) {
+      return <h1>Nenhuma refeição encontrada!</h1>;
     }
 
     return (
@@ -48,7 +52,7 @@ const Refeicoes = () => {
           </div>
         </div>
 
-        {refeicoesFiltradas.map((refeicao) => (
+        {refeicoesExibidas.map((refeicao) => (
           <ExibirDados
             key={refeicao.idRefeicao}
             id={refeicao.idRefeicao}
@@ -57,6 +61,25 @@ const Refeicoes = () => {
             setListDados={setRefeicoes}
           />
         ))}
+
+        <div className={styles.navegacao}>
+          <div className={styles.anterior}>
+            {startIndex > 0 && (
+              <button
+                onClick={() => setStartIndex(Math.max(startIndex - 10, 0))}
+              >
+                Anteriores
+              </button>
+            )}
+          </div>
+          <div className={styles.proximo}>
+            {refeicoesFiltradas.length > endIndex && (
+              <button onClick={() => setStartIndex(startIndex + 10)}>
+                Próximos
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     );
   };
@@ -70,7 +93,7 @@ const Refeicoes = () => {
         tipo="Refeição"
       />
       {refeicoes.length === 0 ? (
-        <h1>Nenhuma refeição encontrada, cadastre a</h1>
+        <h1>Nenhuma Refeição cadastrada</h1>
       ) : (
         renderRefeicoes()
       )}

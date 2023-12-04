@@ -14,6 +14,10 @@ export default function RefeicaoDialog(props) {
   });
   console.log(editValues.id)
   const handleEditRefeicao = () => {
+
+    if(editValues.nome == "" || editValues.valor ==""){
+      toast.warning("Preencha os campos");
+    }else{
    
     axios
       .put("http://localhost:3002/editarRefeicao", {
@@ -47,9 +51,10 @@ export default function RefeicaoDialog(props) {
         }
       });
   };
+}
 
   const handleDeleteRefeicao = async () => {
-    let res = window.confirm("Ao excluir essa refeição, a mesma será removida também dos outros módulos. Deseja confirmar?");
+    let res = window.confirm("Tem certeza que deseja remover esta refeição. Deseja confirmar?");
     if (res) {
       axios
         .delete(`http://localhost:3002/deleteRefeicao/${editValues.id}`)
@@ -80,12 +85,12 @@ export default function RefeicaoDialog(props) {
   return (
     <Modal show={props.open} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Editar dados da refeição {props.nome}</Modal.Title>
+        <Modal.Title>Alterar dados da refeição {props.nome}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group controlId="nome">
-            <Form.Label>Nome da Refeição</Form.Label>
+            <Form.Label>Nome da Refeição *:</Form.Label>
             <Form.Control
               type="text"
               value={editValues.nome}
@@ -95,10 +100,11 @@ export default function RefeicaoDialog(props) {
           </Form.Group>
   
           <Form.Group controlId="valor">
-            <Form.Label>Valor da Refeição R$</Form.Label>
+            <Form.Label>Valor da Refeição R$ *:</Form.Label>
             <Form.Control
               type="number"
               step="0.01"
+              required
               value={editValues.valor}
               onChange={handleChangeValues}
             />

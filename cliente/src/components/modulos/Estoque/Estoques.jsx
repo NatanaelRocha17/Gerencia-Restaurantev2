@@ -1,23 +1,20 @@
-import Menu from "./../../Menu";
-import Busca from "./../../search/Busca";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Menu from "./../../Menu";
+import Busca from "./../../search/Busca";
 import styles from "./Estoques.module.css";
 import ExibirDadosEstoque from "./ExibirDadosEstoque";
-import Botao from "./../../form/Botao";
 import MenuLateral from "./MenuLateral";
 
 function Estoques() {
   const [produtosEstoque, setProdutosEstoque] = useState([]);
-
   const [pesquisa, setPesquisa] = useState("");
+  const [startIndex, setStartIndex] = useState(0);
 
   useEffect(() => {
     const getProdutosEstoque = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3002/getProdutosEstoque"
-        );
+        const response = await axios.get("http://localhost:3002/getProdutosEstoque");
         const savedData = response.data;
         console.log(savedData);
         setProdutosEstoque(savedData);
@@ -29,8 +26,6 @@ function Estoques() {
     getProdutosEstoque();
   }, []);
 
-  console.log(produtosEstoque)
-
   const renderProdutosEstoque = () => {
     const produtosFiltrados = produtosEstoque.filter(
       (produto) =>
@@ -38,7 +33,10 @@ function Estoques() {
         produto.nome.toLowerCase().includes(pesquisa.toLowerCase())
     );
 
-    if (produtosFiltrados.length === 0) {
+    const endIndex = startIndex + 10;
+    const produtosExibidos = produtosFiltrados.slice(startIndex, endIndex);
+
+    if (produtosExibidos.length === 0) {
       return <h1>Nenhum produto encontrado</h1>;
     }
 
@@ -61,7 +59,7 @@ function Estoques() {
           </div>
         </div>
 
-        {produtosFiltrados.map((produto) => (
+        {produtosExibidos.map((produto) => (
           <ExibirDadosEstoque
             key={produto.idestoque}
             id={produto.idestoque}
@@ -70,6 +68,27 @@ function Estoques() {
             setListDados={setProdutosEstoque}
           />
         ))}
+
+<div className={styles.navegacao}>
+          <div className={styles.anterior}>
+            {startIndex > 0 && (
+              <button
+                onClick={() => setStartIndex(Math.max(startIndex - 10, 0))}
+              >
+                Anteriores
+              </button>
+            )}
+          </div>
+          <div className={styles.proximo}>
+            {produtosFiltrados.length > endIndex && (
+              <button onClick={() => setStartIndex(startIndex + 10)}>
+                Próximos
+              </button>
+            )}
+          </div>
+        </div>
+
+        
       </div>
     );
   };
@@ -77,23 +96,23 @@ function Estoques() {
   return (
     <>
       <Menu />
-      
       <div className={styles.exibicao}>
         <div className={styles.menu}>
           <MenuLateral />
         </div>
         <div className={styles.produtos}>
-   
-      <Busca
-        rota="/cadastrarEstoque"
-        onChange={(e) => setPesquisa(e.target.value)}
-        tipo="Produto no Estoque"
-      />
+          <Busca
+            rota="/cadastrarEstoque"
+            onChange={(e) => setPesquisa(e.target.value)}
+            tipo="Produto no Estoque"
+          />
           {produtosEstoque.length === 0 ? (
             <h1>Não há produtos adicionados ao estoque</h1>
           ) : (
             renderProdutosEstoque()
           )}
+
+
         </div>
       </div>
     </>

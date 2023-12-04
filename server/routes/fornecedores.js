@@ -7,6 +7,8 @@ const router = require('express').Router();
 
 router.get("/getFornecedor", getFornecedor)
 
+
+
 router.post("/registerFornecedor", addFornecedor)
 
 router.put("/editarFornecedor", updateFornecedor)

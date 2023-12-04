@@ -139,7 +139,7 @@ export default function FormDialogEstoque(props) {
   return (
     <Modal show={props.open} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Editar dados do(a) {props.nome} no estoque</Modal.Title>
+        <Modal.Title>Alterar dados do(a) {props.nome} no estoque</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -155,7 +155,7 @@ export default function FormDialogEstoque(props) {
               {produtos.map((produto) => (
                 <option controlId="nome" onChange={handleChangeValues} key={produto.idproduto} value={produto.idproduto}>
                   {produto.nome} - {produto.medida}
-                  {produto.unidade} - {produto.marca} - {produto.fornecedor}
+                  {produto.unidade} - {produto.marca}
                 </option>
               ))}
             </Form.Control>

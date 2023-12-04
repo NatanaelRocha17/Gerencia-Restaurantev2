@@ -2,20 +2,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Menu from "./../../Menu";
 import Busca from "./../../search/Busca";
-import ExibirDadosFornecedor from "./ExibirDadosFornecedor"
-import styles from "./Fornecedores.module.css"
+import ExibirDadosFornecedor from "./ExibirDadosFornecedor";
+import styles from "./Fornecedores.module.css";
 
-function Fornecedores(){
-
+function Fornecedores() {
   const [fornecedores, setFornecedor] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
+  const [startIndex, setStartIndex] = useState(0);
 
   useEffect(() => {
     const getFornecedor = async () => {
       try {
         const response = await axios.get("http://localhost:3002/getFornecedor");
         const savedData = response.data;
-        console.log(savedData)
+        console.log(savedData);
         setFornecedor(savedData);
       } catch (error) {
         console.error("Erro ao recuperar os dados:", error);
@@ -25,15 +25,17 @@ function Fornecedores(){
     getFornecedor();
   }, []);
 
-  console.log(fornecedores)
-  const renderFornecedor= () => {
+  const renderFornecedor = () => {
     const fornecedorFiltrados = fornecedores.filter(
       (fornecedor) =>
         fornecedor.razao_social &&
         fornecedor.razao_social.toLowerCase().includes(pesquisa.toLowerCase())
     );
 
-    if (fornecedorFiltrados.length === 0) {
+    const endIndex = startIndex + 10;
+    const fornecedoresExibidos = fornecedorFiltrados.slice(startIndex, endIndex);
+
+    if (fornecedoresExibidos.length === 0) {
       return <h1>Nenhum fornecedor cadastrado</h1>;
     }
 
@@ -53,7 +55,7 @@ function Fornecedores(){
           </div>
         </div>
 
-        {fornecedorFiltrados.map((fornecedor) => (
+        {fornecedoresExibidos.map((fornecedor) => (
           <ExibirDadosFornecedor
             key={fornecedor.id}
             id={fornecedor.id}
@@ -62,6 +64,25 @@ function Fornecedores(){
             setListDados={setFornecedor}
           />
         ))}
+
+        <div className={styles.navegacao}>
+          <div className={styles.anterior}>
+            {startIndex > 0 && (
+              <button
+                onClick={() => setStartIndex(Math.max(startIndex - 10, 0))}
+              >
+                Anteriores
+              </button>
+            )}
+          </div>
+          <div className={styles.proximo}>
+            {fornecedorFiltrados.length > endIndex && (
+              <button onClick={() => setStartIndex(startIndex + 10)}>
+                Próximos
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     );
   };
@@ -76,17 +97,14 @@ function Fornecedores(){
       />
       {fornecedores.length === 0 ? (
         <>
-        <h2>Nenhum fornecedor cadastrado</h2>
-        <p>Cadastre um fornecedor</p>
+          <h2>Nenhum fornecedor cadastrado</h2>
+          
         </>
       ) : (
         renderFornecedor()
       )}
     </div>
   );
-};
-
-
-
+}
 
 export default Fornecedores;

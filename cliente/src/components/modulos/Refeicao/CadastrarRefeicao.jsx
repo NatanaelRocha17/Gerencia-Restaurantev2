@@ -58,9 +58,9 @@ function cadastrarRefeicao(e) {
                 type="text"
                 name="nome"
                 id="nome"
-                text="Nome da refeição"
+                text="Nome da refeição* "
                 placeholder="Digite o nome da refeição"
-                required
+                requerido={true}
                 value={formData.nome}
                 onChange={handleInputChange}
               />
@@ -75,7 +75,7 @@ function cadastrarRefeicao(e) {
                 name="valor"
                 id="valor"
                 requerido={true}
-                text="Valor da refeição R$:"
+                text="Valor da refeição R$* "
                 value={formData.valor}
                 onChange={handleInputChange}
               />

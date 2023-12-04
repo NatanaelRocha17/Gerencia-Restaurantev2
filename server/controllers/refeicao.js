@@ -14,7 +14,7 @@ module.exports.addRefeicao = (req, res) => {
       if (result2.length > 0) {
         // A refeição já está cadastrada
 
-        const errMessage = "O produto já está cadastrado.";
+        const errMessage = "A refeição já está cadastrado.";
         console.log(errMessage);
         return res.status(400).json({ message: errMessage });
       } else {
@@ -31,7 +31,7 @@ module.exports.addRefeicao = (req, res) => {
               return res.status(500).json("Erro ao criar a refeição.");
             }
 
-            return res.status(200).json("Refeição criada com sucesso.");
+            return res.status(200).json("Refeição cadastrada com sucesso.");
           }
         );
       }
@@ -54,10 +54,10 @@ module.exports.uptadeRefeicao = (req, res) => {
   const { id } = req.body;
 
   const SQL2 =
-    "SELECT * FROM refeicoes WHERE nome = ? ";
+    "SELECT * FROM refeicoes WHERE nome = ? and valor = ?";
   const result2 = db.query(
     SQL2,
-    [nome],
+    [nome, valor],
     (err, result2) => {
       console.log(result2);
       if (result2.length > 0) {
@@ -75,7 +75,7 @@ module.exports.uptadeRefeicao = (req, res) => {
           [nome, valor, id],
           (err, result) => {
             if (err) console.log(err);
-            else return res.status(200).json("Refeição editada com sucesso.");
+            else return res.status(200).json("Refeição atualizada com sucesso!");
           }
         );
       }

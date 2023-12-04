@@ -30,3 +30,35 @@
 .item div{
     width: 20%;
 }
+
+
+.navegacao{
+    margin: 1em;
+    display: flex;
+    
+   justify-content:center;
+}
+
+.anterior button {
+    border: 2px solid rgba(0, 0, 0, 0.726);
+    margin: 1em;
+    font-weight: bold;
+    background-color: #9A3432;
+    transition: background-color 0.3s ease; /* Adiciona uma transição suave */
+}
+
+.proximo button {
+    border: 2px solid rgba(0, 0, 0, 0.508);
+    margin: 1em;
+    font-weight: bold;
+    background-color: #9A3432;
+    transition: background-color 0.3s ease; /* Adiciona uma transição suave */
+}
+
+/* Adiciona o efeito hover */
+.anterior button:hover,
+.proximo button:hover {
+    background-color: #f7f7f7; /* Altere para a cor desejada durante o hover */
+    color: #9A3432;
+   
+}

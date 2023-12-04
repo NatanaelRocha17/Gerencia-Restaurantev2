@@ -130,6 +130,8 @@ const getFornecedor = (req, res) => {
 };
 
 
+
+
 /*
 const uptadeFornecedor = (req, res) => {
   const { razaoSocial, email, telefone, cnpj, id } = req.body;
@@ -154,23 +156,30 @@ const uptadeFornecedor = (req, res) => {
 };
 */
 
-
 const updateFornecedor = (req, res) => {
   const { razao_social, email, telefone, cnpj, id } = req.body;
   const { logradouro, cep, numero, cidade, uf, bairro } = req.body;
-  console.log("logradouro:", logradouro);
-  console.log("cep:", cep);
-  console.log("numero:", numero);
-  console.log("cidade:", cidade);
-  console.log("uf:", uf);
-  console.log("bairro:", bairro);
-  console.log("razaoSocial:", razao_social);
-  console.log("email:", email);
-  console.log("telefone:", telefone);
-  console.log("cnpj:", cnpj);
-  console.log("id:", id);
 
+  // Validar se já existe um CNPJ igual no banco de dados
+  const checkExistingCNPJ = () => {
+    return new Promise((resolve, reject) => {
+      const SQL = "SELECT id FROM fornecedor WHERE cnpj = ? AND id != ?";
+      db.query(SQL, [cnpj, id], (err, result) => {
+        if (err) {
+          console.log(err);
+          reject("Erro interno do servidor.");
+        } else if (result.length > 0) {
+          // CNPJ já existe no banco
+          reject("CNPJ já cadastrado no sistema.");
+        } else {
+          // CNPJ não existe no banco
+          resolve();
+        }
+      });
+    });
+  };
 
+  // Atualizar fornecedor e endereço apenas se o CNPJ não existir
   const updateFornecedorDetails = () => {
     return new Promise((resolve, reject) => {
       const SQL =
@@ -203,7 +212,17 @@ const updateFornecedor = (req, res) => {
         }
       );
     });
-  };
+  
+
+  // Executar as validações e atualizações em sequência
+  checkExistingCNPJ()
+    .then(() => updateFornecedorDetails())
+    .then(() => updateEnderecoFornecedor())
+    .then(() => res.status(200).send("Fornecedor atualizado com sucesso"))
+    .catch((error) => res.status(400).send(error));
+};
+
+
 
   const handleUpdate = async () => {
     try {
@@ -217,8 +236,8 @@ const updateFornecedor = (req, res) => {
   };
 
   handleUpdate();
-};
 
+};
 
 
 const deleteFornecedor = (req, res) => {
@@ -250,6 +269,6 @@ module.exports = {
   addFornecedor,
   getFornecedor,
   updateFornecedor, // Corrigido o nome da função aqui
-  deleteFornecedor,
+  deleteFornecedor
   // Outras funções...
 };

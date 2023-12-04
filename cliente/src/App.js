@@ -5,6 +5,10 @@ import Rotas from "./Rotas"
 
 
 function App() {
+
+  document.title = 'Gerencia Restaurante';
+  
+
   return (
 
     <div className="App">

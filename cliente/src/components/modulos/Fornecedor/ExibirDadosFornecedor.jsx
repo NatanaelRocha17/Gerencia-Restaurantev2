@@ -24,7 +24,7 @@ function ExibirDadosFornecedor(props) {
             <h5>{props.dados.razao_social}</h5>
           </div>
           <div>
-            <h5>{props.dados.cnpj}</h5>
+            <h6>{ props.dados.cnpj === "" ? "CNPJ não informado" : props.dados.cnpj}</h6>
           </div>
           <div>
             <h5>{props.dados.telefone}</h5>

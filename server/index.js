@@ -6,14 +6,11 @@ const useRoutesRefeicao = require("./routes/refeicoes.js");
 
 const express = require("express");
 const app = express();
-const mysql = require("mysql2");
 const cors = require("cors");
 
 app.use(express.json()); // Middleware para analisar o corpo da solicitação JSON
 app.use(cors());
 
-app.use(cors()); // Chame a função cors aqui
-app.use(express.json());
 //Banco de dados tabela Produto
 
 app.use("/", useRoutesProdutos)

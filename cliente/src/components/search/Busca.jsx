@@ -10,7 +10,7 @@ const SearchComponent = ({ tipo, rota, value, onChange }) => {
     <div className={styles.pesquisa}>
     
       <form className={styles.formulario}>
-        <input type="text" name="" placeholder={`Busque por um ${tipo}...`} value={value} onChange={onChange} />
+        <input type="text" name="" placeholder={`Pesquisar ${tipo}...`} value={value} onChange={onChange} />
         <div>
           <Link to={rota}><button className={styles.botao}> Cadastrar {tipo}</button></Link>
         </div>

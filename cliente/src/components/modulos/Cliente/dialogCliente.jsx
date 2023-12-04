@@ -16,7 +16,7 @@ export default function DialogClientes(props) {
     email: props.email === "" ? "E-mail não informado" : props.email,
   });
 
-  
+  console.log(props.listDados)
   const handleEditCliente = () => {
     if (
       editValues.nome.trim() === "" ||
@@ -27,7 +27,10 @@ export default function DialogClientes(props) {
       toast.error("Preencha todos os campos!");
      
     } else {
-   
+      if(editValues.cpf.length !== 14){
+        toast.error("CPF não é válido!");
+      }else{
+        
       axios
         .put("http://localhost:3002/editarCliente", {
           idCliente: editValues.id,
@@ -45,7 +48,6 @@ export default function DialogClientes(props) {
             if (data.idCliente === editValues.id) {
               console.log("essa é data" + data);
               return {
-               
                 ...data,
                 nome: editValues.nome,
                 telefone: editValues.telefone,
@@ -66,6 +68,7 @@ export default function DialogClientes(props) {
             toast.warning(error.response.data);
           }
         });
+      }
     }
   }
   const handleDeleteCliente = async () => {
@@ -77,7 +80,7 @@ export default function DialogClientes(props) {
         
           handleClose();
           toast.success(response.data);
-          //window.location.reload();
+          window.location.reload();
           // Atualize a lista de dados no componente ExibirDados após a exclusão
           const updatedDataList = props.listDados.filter((data) => data.idCliente !== editValues.id);
           props.setListDados(updatedDataList);
@@ -100,15 +103,31 @@ export default function DialogClientes(props) {
     }));
   };
 
+
+  const formatarCPF = (valor) => {
+    const numerosCPF = valor.replace(/\D/g, "");
+    if (numerosCPF.length <= 11) {
+      return numerosCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    }
+    return valor;
+  };
+
+  // Lidar com a mudança no input de CPF
+  const lidarComMudancaCPF = (e) => {
+    const cpfFormatado = formatarCPF(e.target.value);
+    setEditValues({ ...editValues, cpf: cpfFormatado });
+  };
+
+
   return (
     <Modal show={props.open} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Editar dados de {props.nome}</Modal.Title>
+        <Modal.Title>Alterar dados de {props.nome}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
         <Form.Group controlId="nome">
-            <Form.Label>Nome do Cliente</Form.Label>
+            <Form.Label>Nome do Cliente *:</Form.Label>
             <Form.Control
               type="text"
               value={editValues.nome}
@@ -116,7 +135,7 @@ export default function DialogClientes(props) {
             />
           </Form.Group>
           <Form.Group controlId="telefone">
-            <Form.Label>Telefone</Form.Label>
+            <Form.Label>Telefone *:</Form.Label>
             <Form.Control
               type="tel"
               value={editValues.telefone}
@@ -124,15 +143,16 @@ export default function DialogClientes(props) {
             />
           </Form.Group>
           <Form.Group controlId="cpf">
-            <Form.Label>CPF</Form.Label>
+            <Form.Label>CPF *:</Form.Label>
             <Form.Control
               type="text"
+              maxLength={14}
               value={editValues.cpf}
-              onChange={handleChangeValues}
+              onChange={lidarComMudancaCPF}
             />
           </Form.Group>
           <Form.Group controlId="email">
-            <Form.Label>E-mail</Form.Label>
+            <Form.Label>E-mail :</Form.Label>
             <Form.Control
               type="email"
               value={editValues.email}

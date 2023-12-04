@@ -61,6 +61,7 @@ function CadastrarEstoque() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  console.log(produtos)
 
   return (
     <div>
@@ -92,7 +93,7 @@ function CadastrarEstoque() {
                   value={iten.idproduto}
                 >
                   {iten.nome} - {iten.medida}
-                  {iten.unidade} - {iten.marca} - {iten.fornecedor}
+                  {iten.unidade} - {iten.marca}
                 </option>
               ))}
             </select>

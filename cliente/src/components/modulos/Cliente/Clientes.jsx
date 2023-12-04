@@ -2,18 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Menu from "./../../Menu";
 import Busca from "./../../search/Busca";
-import ExibirDados from "../Produto/ExibirDados";
-import styles from "./../Cliente/Clientes.module.css"; // Modifique o caminho conforme necessário
 import ExibirDadosClientes from "./ExibirDadosClientes";
+import styles from "./../Cliente/Clientes.module.css";
 
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
+  const [startIndex, setStartIndex] = useState(0);
 
   useEffect(() => {
     const getClientes = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/getClientes"); // Atualize a URL para a rota correta de clientes
+        const response = await axios.get("http://localhost:3002/getClientes");
         const savedData = response.data;
         console.log(savedData);
         setClientes(savedData);
@@ -32,7 +32,10 @@ const Clientes = () => {
         cliente.nome.toLowerCase().includes(pesquisa.toLowerCase())
     );
 
-    if (clientesFiltrados.length === 0) {
+    const endIndex = startIndex + 10;
+    const clientesExibidos = clientesFiltrados.slice(startIndex, endIndex);
+
+    if (clientesExibidos.length === 0) {
       return <h1>Nenhum cliente encontrado</h1>;
     }
 
@@ -49,12 +52,10 @@ const Clientes = () => {
             <div>
               <h5>CPF</h5>
             </div>
-            
-            
           </div>
         </div>
 
-        {clientesFiltrados.map((cliente) => (
+        {clientesExibidos.map((cliente) => (
           <ExibirDadosClientes
             key={cliente.idcliente}
             id={cliente.idcliente}
@@ -63,6 +64,25 @@ const Clientes = () => {
             setListDados={setClientes}
           />
         ))}
+
+        <div className={styles.navegacao}>
+          <div className={styles.anterior}>
+            {startIndex > 0 && (
+              <button
+                onClick={() => setStartIndex(Math.max(startIndex - 10, 0))}
+              >
+                Anteriores
+              </button>
+            )}
+          </div>
+          <div className={styles.proximo}>
+            {clientesFiltrados.length > endIndex && (
+              <button onClick={() => setStartIndex(startIndex + 10)}>
+                Próximos
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     );
   };
@@ -71,7 +91,7 @@ const Clientes = () => {
     <div>
       <Menu />
       <Busca
-        rota="/cadastrarCliente" // Atualize a rota para o cadastro de clientes
+        rota="/cadastrarCliente"
         onChange={(e) => setPesquisa(e.target.value)}
         tipo="Cliente"
       />

@@ -40,7 +40,8 @@ module.exports.getCliente = (req, res) => {
 
 module.exports.updateCliente = (req, res) => {
   const { nome, telefone, cpf, email, idCliente } = req.body;
-  console.log("CPF " + idCliente);
+  console.log("CPF " + cpf);
+  console.log(idCliente);
 
   // Verifica se o cliente já está cadastrado
   const SQL2 =
@@ -73,11 +74,11 @@ module.exports.updateCliente = (req, res) => {
         } else {
           // Atualiza o cliente mantendo o CPF inalterado
           const SQL =
-            "UPDATE clientes SET nome = ?, telefone = ?, email = ? WHERE idCliente = ?";
+            "UPDATE clientes SET nome = ?, telefone = ?, email = ?, cpf = ? WHERE idCliente = ?";
           
           db.query(
             SQL,
-            [nome, telefone, email, idCliente],
+            [nome, telefone, email,cpf ,idCliente],
             (err, result) => {
               if (err) {
                 console.log(err);
